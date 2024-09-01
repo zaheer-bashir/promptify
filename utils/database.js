@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 let isConnected = false;
 
 if (isConnected) {
-    console.log("MongoDB is already connected");
-    return;
+    console.log(" is already connected");
 }
 
 const connectToDB = async () => {
@@ -12,7 +11,7 @@ const connectToDB = async () => {
         const connection = await mongoose.connect(process.env.MONGO_URI, {
             dbName: process.env.MONGO_DB,
             useNewUrlParser: true,
-            useUnifiedTopology: true ,
+            useUnifiedTopology: true,
         });
 
         isConnected = true;

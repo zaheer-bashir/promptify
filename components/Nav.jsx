@@ -9,13 +9,14 @@ const Nav = () => {
     const [toggleDropdown, setToggleDropdown] = useState(false);
     const [ providers, setProviders ] = useState(null);
 
+    const { data : session } = useSession();
+    console.log ( providers );
     useEffect(() => {
-        const setProviders = async () => {
+        const setUpProviders = async () => {
             const response = await getProviders();
             setProviders(response);
         }
-
-        setProviders();
+        setUpProviders();
     }, []);
     
   return (
@@ -25,7 +26,7 @@ const Nav = () => {
         </Link>
 
         <div className="sm:flex hidden">
-            {isUserLoggedIn ? (
+            {session?.user ? (
                 <div className="flex gap-3 md:gap-5">
                     <Link href="/create-prompt" className="black_btn">Create Post</Link>
                     <button type="button" onClick={signOut} className="outline_btn">Sign Out</button>
@@ -47,10 +48,12 @@ const Nav = () => {
 
         { /* Mobile Nav */ }
 
+        {/* { alert (session?.user)} */}
+
         <div className="sm:hidden flex relative">
-            {isUserLoggedIn ? (
+            {session?.user ? (
                 <div className="flex gap-3 md:gap-5">
-                    <Link href="/create-prompt" className="black_btn">Create Post</Link>
+                    
                     <Image src="/assets/images/logo.svg" 
                     alt="profile" 
                     width={37} 
@@ -59,7 +62,7 @@ const Nav = () => {
                     onClick={() => setToggleDropdown((prev) => !prev)}
                     />
                     {toggleDropdown && (
-                        <div className="">
+                        <div className="dropdown">
                             <Link href="/profile" className="dropdown_link" onClick={() => setToggleDropdown(false)}>My Profile</Link>
                             <Link href="/create-prompt" className="dropdown_link" onClick={() => setToggleDropdown(false)}>Create Prompt</Link>
                             <button type="button" className="mt-5 w-full black_btn" onClick={() => {setToggleDropdown(false), signOut()}}>Sign Out</button>
